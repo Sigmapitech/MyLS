@@ -9,17 +9,21 @@
 
 char *ql_strcpy(char *dest, char const *src)
 {
+    char *p = dest;
+
     while (*src != '\0')
-        *dest++ = *src++;
-    *dest = '\0';
+        *p++ = *src++;
+    *p = '\0';
     return dest;
 }
 
 char *ql_strncpy(char *dest, char const *src, int n)
 {
+    char *p = dest;
+
     for (; n > 0 && *src != '\0'; --n)
-        *dest++ = *src++;
+        *p++ = *src++;
     if (n)
-        *dest = '\0';
+        *p = '\0';
     return dest;
 }
