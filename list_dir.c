@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** __
+** My LS
 ** File description:
-** _
+** list_dir.c
 */
 
 #include <dirent.h>

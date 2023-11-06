@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** __
+** My LS
 ** File description:
-** _
+** sort_entries.c
 */
 
 #include "my_ls.h"
