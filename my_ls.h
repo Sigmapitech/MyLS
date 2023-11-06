@@ -14,5 +14,6 @@ enum {
 };
 
 void list_dir(char *dirpath);
+void sort_entries(char **entries, int count);
 
 #endif

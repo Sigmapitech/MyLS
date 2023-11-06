@@ -48,10 +48,11 @@ void list_dir(char *dirpath)
     if (dir == NULL)
         return;
     count = fill_up_leaves(dir, leaves);
+    sort_entries(leaves, count);
     for (int i = 0; i < count; i++) {
         if (i)
             ql_mprintf("%s", " ");
-        ql_mprintf("[%s]", leaves[i]);
+        ql_mprintf("%s", leaves[i]);
     }
     ql_mprintf("\n");
     closedir(dir);
