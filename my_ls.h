@@ -13,4 +13,6 @@ enum {
     EXIT_KO = 84
 };
 
+void list_dir(char *dirpath);
+
 #endif

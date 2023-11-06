@@ -31,5 +31,10 @@ int main(int argc, char **argv)
 
     QL_DEBUG("Received %d parameters", argc);
     QL_DEBUG("Flag value: %x", flags);
+    for (int i = 1; i < argc; i++) {
+        if (argv[i][0] == '-' && argv[i][1] != '\0')
+            continue;
+        list_dir(argv[i]);
+    }
     return EXIT_OK;
 }
