@@ -1,0 +1,20 @@
+# Build
+*.out
+*.[aod]
+
+# Python (CI)
+*.pyc
+
+# Coverage
+*.gc??
+
+compile_commands.json
+.cache
+.fast
+
+# Binaries
+setting_up
+debug
+
+# tests
+unit_tests

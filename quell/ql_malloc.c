@@ -1,0 +1,20 @@
+/*
+** EPITECH PROJECT, 2023
+** My LS
+** File description:
+** ql_malloc.c
+*/
+
+#include <stddef.h>
+#include <stdlib.h>
+
+#include "ql_base.h"
+
+void *ql_calloc(size_t mem, size_t size)
+{
+    void *dest = malloc(mem * size);
+
+    if (dest != NULL)
+        ql_memset(dest, '\0', (mem * size));
+    return dest;
+}
