@@ -9,6 +9,9 @@
     #define QL_BASE_H
 
     #include <stddef.h>
+    #include <stdint.h>
+
+    #define ABS(x) (((x) > 0) ? (x) : (-x))
 
     #define MIN(x, y) (((x) > (y)) ? (x) : (y))
     #define ATTR(key) __attribute__((key))
@@ -39,11 +42,18 @@ int ql_putnbr_base(int nbr, char const *base);
 int ql_putstr(char const *str);
 int ql_showmem(char const *str, int size);
 int ql_showstr(char const *str);
+
+int ql_pow(int nb, int p);
+int ql_intlen(intmax_t i);
+
 size_t ql_memlen(void *chunk, size_t csize);
 void *ql_calloc(size_t nmemb, size_t size);
 void *ql_memcpy(void *dest, const void *src, size_t n);
 void *ql_memset(void *s, int c, size_t n);
+
 void ql_putchar(char c);
+int ql_putnchar(int fd, char c, int nb);
+
 void ql_puthex(int line, int pad);
 
 #endif

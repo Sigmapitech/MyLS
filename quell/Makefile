@@ -46,6 +46,7 @@ SRC += ql_putnbr_base.c
 SRC += ql_putstr.c
 SRC += ql_showmem.c
 SRC += ql_showstr.c
+SRC += ql_pow.c
 
 VPATH += string
 SRC += ql_strcase.c
@@ -62,6 +63,23 @@ SRC += ql_strstr.c
 SRC += ql_strtok.c
 SRC += ql_strtr.c
 SRC += ql_strtwa.c
+
+VPATH += printf
+SRC += vdprintf.c
+SRC += parse_specifier.c
+SRC += pop_length_mod.c
+SRC += printf.c
+SRC += putnbr_str.c
+
+VPATH += printf/handlers
+SRC += conversion_base.c
+SRC += conversion_float.c
+SRC += conversion_numerical.c
+
+VPATH += printf/float
+SRC += double_to_str.c
+SRC += stringify_helpers.c
+SRC += split_parts.c
 
 vpath %.c $(VPATH)
 
