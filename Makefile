@@ -113,7 +113,7 @@ clean:
 fclean: clean
 	$(MAKE) -C quell clean
 	$(RM) -r $(BUILD_DIR)
-	$(RM) $(LIB)
+	$(RM) $(OUT) $(OUT_DEBUG)
 
 .PHONY: clean fclean
 
