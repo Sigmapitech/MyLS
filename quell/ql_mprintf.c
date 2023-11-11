@@ -61,8 +61,8 @@ int ql_mprintf(const char *format, ...)
         }
         if (format[1] == '\0')
             return write(STDOUT_FILENO, format, sizeof(char));
-        written += handle_lookahead(format++, &args);
-        format++;
+        written += handle_lookahead(format, &args);
+        format += 2;
     }
     va_end(args);
     return written;

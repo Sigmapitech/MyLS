@@ -17,9 +17,9 @@ int count_words(char const *str)
 {
     int count = 0;
 
-    if (*str++ == '\0')
+    if (*str == '\0')
         return 0;
-    for (; *str != '\0'; ++str)
+    for (str++; *str != '\0'; ++str)
         count += !IS_ALNUM(*str) && IS_ALNUM(*(str - 1));
     if (IS_ALNUM(*(str - 1)))
         count++;
@@ -29,18 +29,22 @@ int count_words(char const *str)
 static
 void remap_ptr(char **arr, char *str)
 {
-    char *p = str++;
+    char *p = str;
 
-    for (; *str != '\0'; ++str) {
+    for (str++; *str != '\0'; ++str) {
         if (IS_ALNUM(*str) && !IS_ALNUM(*(str - 1)))
             p = str;
-        if (!IS_ALNUM(*str) && IS_ALNUM(*(str - 1)))
-            *arr++ = p;
+        if (!IS_ALNUM(*str) && IS_ALNUM(*(str - 1))) {
+            *arr = p;
+            arr++;
+        }
         if (!IS_ALNUM(*str))
             *str = '\0';
     }
-    if (IS_ALNUM(*(str - 1)))
-        *arr++ = p;
+    if (IS_ALNUM(*(str - 1))) {
+        *arr = p;
+        arr++;
+    }
     *arr = NULL;
 }
 

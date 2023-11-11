@@ -14,7 +14,10 @@ void *ql_memcpy(void *dest, const void *src, size_t n)
 
     if (dest == NULL || src == NULL)
         return NULL;
-    for (byte_t *destp = dest; n--; *destp++ = *srcp++)
-        ;
+    for (byte_t *destp = dest; n != 0; n--) {
+        *destp = *srcp;
+        destp++;
+        srcp++;
+    }
     return dest;
 }

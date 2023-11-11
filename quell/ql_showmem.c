@@ -15,15 +15,17 @@ void ql_show_memblock(char const *mem, int n)
     int group = 16;
 
     ql_putstr(": ");
-    while (n--) {
+    for (; n; n--) {
         ql_puthex((int)(unsigned char)*mem++, 2);
-        if (group-- & 1)
+        if (group & 1)
             ql_putchar(' ');
+        group--;
     }
-    while (leftover--) {
+    for (; leftover; leftover--) {
         ql_putstr("  ");
-        if (group-- & 1)
+        if (group & 1)
             ql_putchar(' ');
+        group--;
     }
 }
 

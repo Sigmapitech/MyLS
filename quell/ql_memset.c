@@ -11,7 +11,7 @@ void *mem_set(void *src, byte_t c, size_t n)
 {
     if (src == NULL)
         return NULL;
-    for (byte_t *ptr = src; n--; *ptr++ = c)
-        ;
+    for (byte_t *ptr = src; n--; ptr++)
+        *ptr = c;
     return src;
 }
