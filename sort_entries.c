@@ -40,6 +40,6 @@ void reorganize_elements(entry_t *cmp_l, entry_t *cmp_r)
 void sort_entries(entry_t *entries, int count)
 {
     for (int i = 0; i < count; i++)
-        for (int j = 0; j < count; j++)
+        for (int j = 0; j < i; j++)
             reorganize_elements(entries + i, entries + j);
 }
