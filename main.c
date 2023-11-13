@@ -28,13 +28,20 @@ char compose_flaglist(int argc, char **argv)
 int main(int argc, char **argv)
 {
     char flags = compose_flaglist(argc, argv);
+    dirbuff_t db = {
+        .size = 1024,
+        .entries = malloc(1024 * sizeof(*db.entries)),
+    };
 
     QL_DEBUG("Received %d parameters", argc);
     QL_DEBUG("Flag value: %x", flags);
+    if (db.entries == NULL)
+        return EXIT_KO;
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] == '-' && argv[i][1] != '\0')
             continue;
-        list_dir(argv[i]);
+        list_dir(&db, argv[i]);
     }
+    free(db.entries);
     return EXIT_OK;
 }

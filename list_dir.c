@@ -9,39 +9,39 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "quell/ql_base.h"
 #include "my_ls.h"
+#include "quell/ql_base.h"
+#include "quell/ql_debug.h"
 #include "quell/ql_string.h"
 
 static
-int fill_up_leaves(DIR *dir, entry_t *entries)
+int read_directory(DIR *dir, dirbuff_t *db)
 {
-    entry_t *p = entries;
     struct dirent *dirent = readdir(dir);
+    size_t i = 0;
 
     for (; dirent; dirent = readdir(dir)) {
         if (dirent->d_name[0] == '.')
             continue;
-        ql_strcpy(entries->name, dirent->d_name);
-        entries++;
+        ql_strcpy(db->entries[i].name, dirent->d_name);
+        i++;
     }
-    return entries - p;
+    return i;
 }
 
-void list_dir(char *dirpath)
+void list_dir(dirbuff_t *db, char *dirpath)
 {
-    static entry_t entries[1024];
     DIR *dir = opendir(dirpath);
     int count;
 
     if (dir == NULL)
         return;
-    count = fill_up_leaves(dir, entries);
-    sort_entries(entries, count);
+    count = read_directory(dir, db);
+    sort_entries(db->entries, count);
     for (int i = 0; i < count; i++) {
         if (i)
             ql_mprintf("%s", " ");
-        ql_mprintf("%s", entries[i].name);
+        ql_mprintf("%s", db->entries[i].name);
     }
     ql_mprintf("\n");
     closedir(dir);

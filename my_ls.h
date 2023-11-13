@@ -8,6 +8,8 @@
 #ifndef MY_LS_H
     #define MY_LS_H
 
+    #include <stddef.h>
+
     #include <linux/limits.h>
     #include <sys/stat.h>
 
@@ -23,7 +25,12 @@ typedef struct {
     char name[NAME_MAX + 1];
 } entry_t;
 
-void list_dir(char *dirpath);
+typedef struct {
+    entry_t *entries;
+    size_t size;
+} dirbuff_t;
+
+void list_dir(dirbuff_t *db, char *dirpath);
 void sort_entries(entry_t *entries, int count);
 
 #endif
