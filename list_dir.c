@@ -15,13 +15,13 @@
 #include "quell/ql_string.h"
 
 static
-int read_directory(DIR *dir, dirbuff_t *db)
+int read_directory(DIR *dir, dirbuff_t *db, char flags)
 {
     struct dirent *dirent = readdir(dir);
     size_t i = 0;
 
     for (; dirent; dirent = readdir(dir)) {
-        if (dirent->d_name[0] == '.')
+        if (dirent->d_name[0] == '.' && ~flags & FLAG_A)
             continue;
         if (i == db->size) {
             db->size <<= 1;
@@ -34,14 +34,14 @@ int read_directory(DIR *dir, dirbuff_t *db)
     return i;
 }
 
-void list_dir(dirbuff_t *db, char *dirpath)
+void list_dir(dirbuff_t *db, char *dirpath, char flags)
 {
     DIR *dir = opendir(dirpath);
     int count;
 
     if (dir == NULL)
         return;
-    count = read_directory(dir, db);
+    count = read_directory(dir, db, flags);
     sort_entries(db->entries, count);
     for (int i = 0; i < count; i++) {
         if (i)

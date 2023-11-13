@@ -18,6 +18,18 @@ enum {
     EXIT_KO = 84
 };
 
+enum {
+    FLAG_A = 0x01,
+    FLAG_L = 0x02,
+    FLAG_R_UP = 0x04,
+    FLAG_D = 0x08,
+    FLAG_R = 0x10,
+    FLAG_T = 0x20,
+};
+
+__attribute__((used))
+static const char *FLAGLIST = "alRdrt";
+
 typedef struct {
     struct stat stat;
     struct passwd *passwd;
@@ -30,7 +42,7 @@ typedef struct {
     size_t size;
 } dirbuff_t;
 
-void list_dir(dirbuff_t *db, char *dirpath);
+void list_dir(dirbuff_t *db, char *dirpath, char flags);
 void sort_entries(entry_t *entries, int count);
 
 #endif

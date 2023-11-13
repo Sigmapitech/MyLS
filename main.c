@@ -13,14 +13,13 @@
 static
 char compose_flaglist(int argc, char **argv)
 {
-    const char *flaglist = "alRdrt";
     char flags = 0;
 
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] != '-' || argv[i][1] == '\0')
             continue;
         for (int j = 1; argv[i][j] != '\0'; j++)
-            flags |= 1 << (ql_stridx(flaglist, argv[i][j]) + 1);
+            flags |= 1 << (ql_stridx(FLAGLIST, argv[i][j]) + 1);
     }
     return flags >> 1;
 }
@@ -40,7 +39,7 @@ int main(int argc, char **argv)
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] == '-' && argv[i][1] != '\0')
             continue;
-        list_dir(&db, argv[i]);
+        list_dir(&db, argv[i], flags);
     }
     free(db.entries);
     return EXIT_OK;
