@@ -48,6 +48,7 @@ SRC += ql_putstr.c
 SRC += ql_realloc.c
 SRC += ql_showmem.c
 SRC += ql_showstr.c
+SRC += ql_sort.c
 
 VPATH += string
 SRC += ql_strcase.c
