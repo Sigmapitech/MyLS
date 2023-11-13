@@ -23,6 +23,11 @@ int read_directory(DIR *dir, dirbuff_t *db)
     for (; dirent; dirent = readdir(dir)) {
         if (dirent->d_name[0] == '.')
             continue;
+        if (i == db->size) {
+            db->size <<= 1;
+            db->entries = ql_reallocarray(
+                db->entries, i, db->size, sizeof(*db->entries));
+        }
         ql_strcpy(db->entries[i].name, dirent->d_name);
         i++;
     }

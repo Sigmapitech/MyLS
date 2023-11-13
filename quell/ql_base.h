@@ -51,6 +51,9 @@ void *ql_calloc(size_t nmemb, size_t size);
 void *ql_memcpy(void *dest, const void *src, size_t n);
 void *ql_memset(void *s, int c, size_t n);
 
+void *ql_realloc(void *ptr, size_t oldsize, size_t size);
+void *ql_reallocarray(void *ptr, size_t oldsize, size_t size, size_t elmsize);
+
 void ql_putchar(char c);
 int ql_putnchar(int fd, char c, int nb);
 

@@ -40,13 +40,14 @@ SRC += ql_memcpy.c
 SRC += ql_memlen.c
 SRC += ql_memset.c
 SRC += ql_mprintf.c
+SRC += ql_pow.c
 SRC += ql_putchar.c
 SRC += ql_putnbr.c
 SRC += ql_putnbr_base.c
 SRC += ql_putstr.c
+SRC += ql_realloc.c
 SRC += ql_showmem.c
 SRC += ql_showstr.c
-SRC += ql_pow.c
 
 VPATH += string
 SRC += ql_strcase.c
