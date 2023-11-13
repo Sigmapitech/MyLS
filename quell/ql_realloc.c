@@ -16,10 +16,10 @@ void *ql_realloc(void *ptr, size_t oldsize, size_t size)
 
     if (size == 0)
         free(ptr);
-    if (oldsize == 0)
+    if (size == 0 || oldsize == 0)
         return NULL;
     newp = malloc(size);
-    if (ptr == NULL || newp == NULL)
+    if (ptr == NULL || newp == NULL || !size)
         return newp;
     ql_memcpy(newp, ptr, oldsize);
     free(ptr);
