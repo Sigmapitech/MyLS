@@ -32,6 +32,9 @@ enum {
 __attribute__((used))
 static const char *FLAGLIST = "alRdrt";
 
+__attribute__((used))
+static char DEFAULT_LOCATION[2] = ".";
+
 typedef struct {
     struct stat stat;
     struct passwd *passwd;

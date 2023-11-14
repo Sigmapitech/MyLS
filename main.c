@@ -24,18 +24,31 @@ char compose_flaglist(int argc, char **argv)
     return flags >> 1;
 }
 
-int main(int argc, char **argv)
+static
+int count_targets(int argc, char **argv)
 {
-    char flags = compose_flaglist(argc, argv);
+    int count = 0;
+
+    for (int i = 1; i < argc; i++)
+        if (argv[i][0] != '-' || argv[i][1] == '\0')
+            count++;
+    return count;
+}
+
+static
+int list_dirs(int argc, char **argv, char flags)
+{
     dirbuff_t db = {
         .size = 1024,
         .entries = malloc(1024 * sizeof(*db.entries)),
     };
 
-    QL_DEBUG("Received %d parameters", argc);
-    QL_DEBUG("Flag value: %x", flags);
     if (db.entries == NULL)
-        return EXIT_KO;
+        return -1;
+    if (count_targets(argc, argv) == 0) {
+        db.name = DEFAULT_LOCATION;
+        list_dir(&db, flags);
+    }
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] == '-' && argv[i][1] != '\0')
             continue;
@@ -43,5 +56,16 @@ int main(int argc, char **argv)
         list_dir(&db, flags);
     }
     free(db.entries);
+    return 0;
+}
+
+int main(int argc, char **argv)
+{
+    char flags = compose_flaglist(argc, argv);
+
+    QL_DEBUG("Received %d parameters", argc);
+    QL_DEBUG("Flag value: %x", flags);
+    if (list_dirs(argc, argv, flags) < 0)
+        return EXIT_KO;
     return EXIT_OK;
 }
