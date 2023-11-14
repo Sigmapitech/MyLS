@@ -69,11 +69,11 @@ char *get_creation_time(entry_t *entry)
     static char fmt[12];
     char *ct = ctime(&entry->stat.st_mtim.tv_sec);
     time_t now = time(NULL);
-    const int six_month_sec = 2592000;
+    const int six_month_sec = 6 * 24 * 3600 * 31;
 
     if (entry->stat.st_mtim.tv_sec + six_month_sec < now) {
         ql_strncpy(fmt, ct + 4, 7);
-        ql_strncpy(fmt, ct + 20, 4);
+        ql_strncpy(fmt + 7, ct + 19, 5);
     } else
         ql_strncpy(fmt, ct + 4, 12);
     return fmt;
