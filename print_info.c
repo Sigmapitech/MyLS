@@ -23,23 +23,26 @@
 #include "my_ls.h"
 
 static
-void get_file_right(char *out, entry_t *entry)
+void get_file_right(char *bits, entry_t *entry)
 {
     int mode = entry->stat.st_mode;
     const char *s = "-rwx";
-    char buf[9] = {
-        [0] = s[ZERO_OR(mode & S_IRUSR, 1)],
-        [1] = s[ZERO_OR(mode & S_IWUSR, 2)],
-        [2] = s[ZERO_OR(mode & S_IXUSR, 3)],
-        [3] = s[ZERO_OR(mode & S_IRGRP, 1)],
-        [4] = s[ZERO_OR(mode & S_IRGRP, 2)],
-        [5] = s[ZERO_OR(mode & S_IWGRP, 3)],
-        [6] = s[ZERO_OR(mode & S_IROTH, 1)],
-        [7] = s[ZERO_OR(mode & S_IWOTH, 2)],
-        [8] = s[ZERO_OR(mode & S_IXOTH, 3)],
-    };
 
-    ql_strncpy(out, buf, 9);
+    bits[0] = s[ZERO_OR(mode & S_IRUSR, 1)];
+    bits[1] = s[ZERO_OR(mode & S_IWUSR, 2)];
+    bits[2] = s[ZERO_OR(mode & S_IXUSR, 3)];
+    bits[3] = s[ZERO_OR(mode & S_IRGRP, 1)];
+    bits[4] = s[ZERO_OR(mode & S_IRGRP, 2)];
+    bits[5] = s[ZERO_OR(mode & S_IWGRP, 3)];
+    bits[6] = s[ZERO_OR(mode & S_IROTH, 1)];
+    bits[7] = s[ZERO_OR(mode & S_IWOTH, 2)];
+    bits[8] = s[ZERO_OR(mode & S_IXOTH, 3)];
+    if (mode & S_ISUID)
+        bits[1] = (mode & S_IXUSR) ? 's' : 'S';
+    if (mode & S_ISGID)
+        bits[3] = (mode & S_IXGRP) ? 's' : 'l';
+    if (mode & S_ISVTX)
+        bits[8] = (mode & S_IXOTH) ? 't' : 'T';
 }
 
 static
