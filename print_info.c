@@ -64,17 +64,35 @@ char get_file_type(entry_t *entry)
 }
 
 static
+char *get_creation_time(entry_t *entry)
+{
+    static char fmt[12];
+    char *ct = ctime(&entry->stat.st_mtim.tv_sec);
+    time_t now = time(NULL);
+    const int six_month_sec = 2592000;
+
+    if (entry->stat.st_mtim.tv_sec + six_month_sec < now) {
+        ql_strncpy(fmt, ct + 4, 7);
+        ql_strncpy(fmt, ct + 20, 4);
+    } else
+        ql_strncpy(fmt, ct + 4, 12);
+    return fmt;
+}
+
+static
 void print_file_infos(entry_t *entry)
 {
     char perms[10] = { [0] = get_file_type(entry) };
     const char *owner = (entry->passwd == NULL) ? "?" : entry->passwd->pw_name;
     const char *grp = (entry->group == NULL) ? "?" : entry->group->gr_name;
+    char *time = get_creation_time(entry);
 
     get_file_right(perms + 1, entry);
-    ql_printf("%s %d %s %s %d ",
+    ql_printf("%s %d %s %s %d %.12s ",
         perms, entry->stat.st_nlink,
         owner, grp,
-        entry->stat.st_size
+        entry->stat.st_size,
+        time
     );
 }
 
