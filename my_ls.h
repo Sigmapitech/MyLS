@@ -10,6 +10,8 @@
 
     #include <stddef.h>
 
+    #define ZERO_OR(expr, default) ((!!(expr)) * default)
+
     #include <linux/limits.h>
     #include <sys/stat.h>
 
