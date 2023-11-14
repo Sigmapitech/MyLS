@@ -33,8 +33,8 @@ void get_file_right(char *bits, entry_t *entry)
     bits[1] = s[ZERO_OR(mode & S_IWUSR, 2)];
     bits[2] = s[ZERO_OR(mode & S_IXUSR, 3)];
     bits[3] = s[ZERO_OR(mode & S_IRGRP, 1)];
-    bits[4] = s[ZERO_OR(mode & S_IRGRP, 2)];
-    bits[5] = s[ZERO_OR(mode & S_IWGRP, 3)];
+    bits[4] = s[ZERO_OR(mode & S_IWGRP, 2)];
+    bits[5] = s[ZERO_OR(mode & S_IXGRP, 3)];
     bits[6] = s[ZERO_OR(mode & S_IROTH, 1)];
     bits[7] = s[ZERO_OR(mode & S_IWOTH, 2)];
     bits[8] = s[ZERO_OR(mode & S_IXOTH, 3)];
