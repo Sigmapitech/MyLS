@@ -6,8 +6,10 @@
 */
 
 #include <dirent.h>
+#include <errno.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include <sys/types.h>
 #include <pwd.h>
@@ -15,6 +17,7 @@
 
 #include "quell/ql_base.h"
 #include "quell/ql_debug.h"
+#include "quell/ql_printf.h"
 #include "quell/ql_string.h"
 
 #include "my_ls.h"
@@ -56,13 +59,34 @@ int read_directory(dirbuff_t *db, DIR *dir, char flags)
     return i;
 }
 
+static
+void print_error(char *dirname)
+{
+    switch (errno) {
+        case ENOENT:
+            ql_dprintf(STDERR_FILENO,
+                "ls: cannot access '%s': No such file or directory\n",
+                dirname);
+            return;
+        case EACCES:
+            ql_dprintf(STDERR_FILENO,
+                "ls: cannot open directory '%s': Permission denied\n",
+                dirname);
+            return;
+        default:
+            ql_dprintf(STDERR_FILENO, "Unknown error\n");
+    }
+}
+
 void list_dir(dirbuff_t *db, char flags)
 {
     DIR *dir = opendir(db->name);
     int count;
 
-    if (dir == NULL)
+    if (dir == NULL) {
+        print_error(db->name);
         return;
+    }
     count = read_directory(db, dir, flags);
     sort_entries(db->entries, count);
     if (flags & FLAG_T)
