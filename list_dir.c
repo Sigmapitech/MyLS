@@ -65,6 +65,8 @@ void list_dir(dirbuff_t *db, char flags)
         return;
     count = read_directory(db, dir, flags);
     sort_entries(db->entries, count);
+    if (flags & FLAG_T)
+        sort_entries_by_time(db->entries, count);
     print_entries(db->entries, count, flags);
     closedir(dir);
 }

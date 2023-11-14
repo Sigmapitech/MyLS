@@ -46,7 +46,8 @@ typedef struct {
 } dirbuff_t;
 
 void list_dir(dirbuff_t *db, char flags);
-void sort_entries(entry_t *entries, int count);
 void print_entries(entry_t *entry, int count, char flags);
 
+void sort_entries(entry_t *entries, int count);
+void sort_entries_by_time(entry_t *entries, int count);
 #endif
