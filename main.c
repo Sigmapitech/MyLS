@@ -38,6 +38,7 @@ int count_targets(int argc, char **argv)
 static
 int list_dirs(int argc, char **argv, char flags)
 {
+    int err = 0;
     dirbuff_t db = {
         .size = 1024,
         .entries = malloc(1024 * sizeof(*db.entries)),
@@ -47,16 +48,16 @@ int list_dirs(int argc, char **argv, char flags)
         return -1;
     if (count_targets(argc, argv) == 0) {
         db.name = DEFAULT_LOCATION;
-        list_dir(&db, flags);
+        err |= list_dir(&db, flags);
     }
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] == '-' && argv[i][1] != '\0')
             continue;
         db.name = argv[i];
-        list_dir(&db, flags);
+        err |= list_dir(&db, flags);
     }
     free(db.entries);
-    return 0;
+    return err;
 }
 
 int main(int argc, char **argv)
@@ -65,7 +66,5 @@ int main(int argc, char **argv)
 
     QL_DEBUG("Received %d parameters", argc);
     QL_DEBUG("Flag value: %x", flags);
-    if (list_dirs(argc, argv, flags) < 0)
-        return EXIT_KO;
-    return EXIT_OK;
+    return (list_dirs(argc, argv, flags) < 0) ? EXIT_KO : EXIT_OK;
 }

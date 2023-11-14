@@ -78,14 +78,14 @@ void print_error(char *dirname)
     }
 }
 
-void list_dir(dirbuff_t *db, char flags)
+int list_dir(dirbuff_t *db, char flags)
 {
     DIR *dir = opendir(db->name);
     int count;
 
     if (dir == NULL) {
         print_error(db->name);
-        return;
+        return -1;
     }
     count = read_directory(db, dir, flags);
     sort_entries(db->entries, count);
@@ -93,4 +93,5 @@ void list_dir(dirbuff_t *db, char flags)
         sort_entries_by_time(db->entries, count);
     print_entries(db->entries, count, flags);
     closedir(dir);
+    return 0;
 }
