@@ -11,7 +11,7 @@
     #include <stdarg.h>
 
 int ql_printf(const char *format, ...);
-int ql_dprintf(const char *format, ...);
+int ql_dprintf(int fd, const char *format, ...);
 int ql_vprintf(int fd, const char *format, va_list ap);
 int ql_vdprintf(int fd, const char *format, va_list ap);
 
