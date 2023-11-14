@@ -42,6 +42,7 @@ LDFLAGS += -L $(BUILD_DIR) -lquell
 VPATH += .
 SRC += main.c
 SRC += list_dir.c
+SRC += print_info.c
 SRC += sort_entries.c
 
 vpath %.c $(VPATH)
