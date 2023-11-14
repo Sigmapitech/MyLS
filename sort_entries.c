@@ -13,9 +13,13 @@ int compare_names(const void *left, const void *right)
 {
     const char *sleft = ((entry_t *)left)->name;
     const char *sright = ((entry_t *)right)->name;
+    const char *l = sleft;
+    const char *r = sright;
 
     for (; *sleft == '.'; sleft++);
     for (; *sright == '.'; sright++);
+    if (*sleft == '\0' && *sright == '\0')
+        return (sleft - l) - (sright - r);
     for (; *sleft != '\0' && C_UP(*sleft) == C_UP(*sright);) {
         sleft++;
         sright++;
