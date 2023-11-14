@@ -38,11 +38,12 @@ typedef struct {
 } entry_t;
 
 typedef struct {
+    char *name;
     entry_t *entries;
     size_t size;
 } dirbuff_t;
 
-void list_dir(dirbuff_t *db, char *dirpath, char flags);
+void list_dir(dirbuff_t *db, char flags);
 void sort_entries(entry_t *entries, int count);
 
 #endif
