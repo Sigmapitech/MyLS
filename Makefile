@@ -19,7 +19,7 @@ ifneq ($(shell find . -name ".fast"),)
     MAKEFLAGS += -j
 endif
 
-CC := gcc -std=c99
+CC := gcc -std=gnu99
 
 CFLAGS := -MMD -MP
 CFLAGS += -fno-builtin

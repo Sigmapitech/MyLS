@@ -5,13 +5,15 @@
 ** print_info.c
 */
 
-#include <dirent.h>
 #include <stddef.h>
 #include <stdlib.h>
 
-#include <sys/types.h>
+#include <dirent.h>
 #include <pwd.h>
 #include <grp.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include "quell/ql_base.h"
 #include "quell/ql_debug.h"
@@ -19,10 +21,9 @@
 #include "quell/ql_printf.h"
 
 #include "my_ls.h"
-#include "sys/stat.h"
 
 static
-void print_file_right(entry_t *entry)
+void get_file_right(char *out, entry_t *entry)
 {
     int mode = entry->stat.st_mode;
     const char *s = "-rwx";
@@ -38,14 +39,37 @@ void print_file_right(entry_t *entry)
         [8] = s[ZERO_OR(mode & S_IXOTH, 3)],
     };
 
-    ql_printf("%.9s", buf);
+    ql_strncpy(out, buf, 9);
+}
+
+static
+char get_file_type(entry_t *entry)
+{
+    const char typ[] = {
+        [ S_IFBLK ] = 'b',
+        [ S_IFCHR ] = 'c',
+        [ S_IFDIR ] = 'd',
+        [ S_IFIFO ] = 'p',
+        [ S_IFLNK ] = 'l',
+        [ S_IFREG ] = '-',
+        [ S_IFSOCK ] = 's',
+        [ 0 ] = '?'
+    };
+
+    return typ[(entry->stat.st_mode & S_IFMT)];
 }
 
 static
 void print_file_infos(entry_t *entry)
 {
-    print_file_right(entry);
-    ql_printf(" %p %p %p ", entry->group, entry->passwd, entry->stat);
+    char perms[10] = {
+        [0] = get_file_type(entry)
+    };
+
+    get_file_right(perms + 1, entry);
+    ql_printf("%s %p %p ",
+        perms,
+        entry->group, entry->passwd, entry->stat);
 }
 
 void print_entries(entry_t *entry, int count, char flags)
