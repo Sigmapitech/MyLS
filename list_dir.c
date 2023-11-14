@@ -9,10 +9,28 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "my_ls.h"
 #include "quell/ql_base.h"
 #include "quell/ql_debug.h"
 #include "quell/ql_string.h"
+#include "quell/ql_printf.h"
+
+#include "my_ls.h"
+
+static
+void print_entries(entry_t *entry, int count, char flags)
+{
+    int d;
+
+    if (flags & FLAG_R) {
+        d = -1;
+        entry += (count - 1);
+    } else
+        d = 1;
+    for (int i = 0; i < count; i++) {
+        ql_printf("%s%c", entry->name, " \n"[(i + 1) == count]);
+        entry += d;
+    }
+}
 
 static
 int read_directory(DIR *dir, dirbuff_t *db, char flags)
@@ -43,11 +61,6 @@ void list_dir(dirbuff_t *db, char *dirpath, char flags)
         return;
     count = read_directory(dir, db, flags);
     sort_entries(db->entries, count);
-    for (int i = 0; i < count; i++) {
-        if (i)
-            ql_mprintf("%s", " ");
-        ql_mprintf("%s", db->entries[i].name);
-    }
-    ql_mprintf("\n");
+    print_entries(db->entries, count, flags);
     closedir(dir);
 }

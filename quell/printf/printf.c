@@ -11,7 +11,7 @@
 #include "ql_printf.h"
 #include "printf/internal.h"
 
-int my_printf(const char *format, ...)
+int ql_printf(const char *format, ...)
 {
     int written;
     va_list ap;
