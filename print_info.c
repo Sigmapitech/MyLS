@@ -12,6 +12,7 @@
 #include <pwd.h>
 #include <grp.h>
 
+#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -65,14 +66,16 @@ char get_file_type(entry_t *entry)
 static
 void print_file_infos(entry_t *entry)
 {
-    char perms[10] = {
-        [0] = get_file_type(entry)
-    };
+    char perms[10] = { [0] = get_file_type(entry) };
+    const char *owner = (entry->passwd == NULL) ? "?" : entry->passwd->pw_name;
+    const char *grp = (entry->group == NULL) ? "?" : entry->group->gr_name;
 
     get_file_right(perms + 1, entry);
-    ql_printf("%s %p %p ",
-        perms,
-        entry->group, entry->passwd, entry->stat);
+    ql_printf("%s %d %s %s %d ",
+        perms, entry->stat.st_nlink,
+        owner, grp,
+        entry->stat.st_size
+    );
 }
 
 void print_entries(entry_t *entry, int count, char flags)
