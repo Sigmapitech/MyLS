@@ -49,7 +49,7 @@ int read_directory(dirbuff_t *db, DIR *dir, char flags)
                 db->entries, i, db->size, sizeof(*db->entries));
         }
         ql_strcpy(db->entries[i].name, dirent->d_name);
-        if (flags & FLAG_L)
+        if (flags & (FLAG_L | FLAG_T))
             get_file_info(db->name, &db->entries[i]);
         i++;
     }
