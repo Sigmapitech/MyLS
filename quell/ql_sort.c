@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** __
+** My LS
 ** File description:
-** _
+** ql_sort.c
 */
 
 #include "ql_base.h"

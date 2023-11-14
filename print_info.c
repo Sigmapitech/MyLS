@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** __
+** My LS
 ** File description:
-** _
+** print_info.c
 */
 
 #include <dirent.h>

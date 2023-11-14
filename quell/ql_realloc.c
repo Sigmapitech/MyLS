@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** __
+** My LS
 ** File description:
-** _
+** ql_realloc.c
 */
 
 #include <stddef.h>

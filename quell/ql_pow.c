@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** my_printf
+** My LS
 ** File description:
-** my_pow.c
+** ql_pow.c
 */
 
 

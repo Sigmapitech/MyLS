@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** my_printf
+** My LS
 ** File description:
 ** parse_specifier.c
 */
