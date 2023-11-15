@@ -50,7 +50,7 @@ int list_dirs(dirbuff_t *db, int argc, char **argv, char flags)
             continue;
         db->name = argv[i];
         if (count > 1)
-            flags |= FLAG_SHOW_DIR;
+            flags |= F_SHOW_DIRS;
         err |= list_dir(db, flags);
     }
     return err;

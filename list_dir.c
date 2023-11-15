@@ -44,7 +44,7 @@ int read_directory(dirbuff_t *db, DIR *dir, char flags)
     size_t i = 0;
 
     for (; dirent; dirent = readdir(dir)) {
-        if (dirent->d_name[0] == '.' && ~flags & FLAG_A)
+        if (dirent->d_name[0] == '.' && ~flags & F_ALL_FILES)
             continue;
         if (i == db->size) {
             db->size <<= 1;
@@ -52,7 +52,7 @@ int read_directory(dirbuff_t *db, DIR *dir, char flags)
                 db->entries, i, db->size, sizeof(*db->entries));
         }
         ql_strcpy(db->entries[i].name, dirent->d_name);
-        if (flags & (FLAG_L | FLAG_T))
+        if (flags & (F_LONG_FORM | F_SORT_TIME))
             get_file_info(db->name, &db->entries[i]);
         i++;
     }
@@ -89,9 +89,9 @@ int list_dir(dirbuff_t *db, char flags)
     }
     count = read_directory(db, dir, flags);
     sort_entries(db->entries, count);
-    if (flags & FLAG_T)
+    if (flags & F_SORT_TIME)
         sort_entries_by_time(db->entries, count);
-    if (flags & FLAG_SHOW_DIR)
+    if (flags & F_SHOW_DIRS)
         ql_mprintf("%s:\n", db->name);
     print_entries(db->entries, count, flags);
     closedir(dir);

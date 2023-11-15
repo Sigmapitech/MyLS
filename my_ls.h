@@ -21,13 +21,13 @@ enum {
 };
 
 enum {
-    FLAG_A = 1 << 1,
-    FLAG_L = 1 << 2,
-    FLAG_R_UP = 1 << 3,
-    FLAG_D = 1 << 4,
-    FLAG_R = 1 << 5,
-    FLAG_T = 1 << 6,
-    FLAG_SHOW_DIR = 1 << 7
+    F_ALL_FILES = 1 << 0,
+    F_LONG_FORM = 1 << 1,
+    F_RECURSIVE = 1 << 2,
+    F_DIRECTORY = 1 << 3,
+    F_REV_ORDER = 1 << 4,
+    F_SORT_TIME = 1 << 5,
+    F_SHOW_DIRS = 1 << 6,
 };
 
 __attribute__((used))

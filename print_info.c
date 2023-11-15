@@ -100,16 +100,16 @@ void print_entries(entry_t *entry, int count, char flags)
 {
     int d;
 
-    if (flags & FLAG_R) {
+    if (flags & F_REV_ORDER) {
         d = -1;
         entry += (count - 1);
     } else
         d = 1;
     for (int i = 0; i < count; i++) {
-        if (flags & FLAG_L)
+        if (flags & F_LONG_FORM)
             print_file_infos(entry);
         ql_mprintf("%s", entry->name);
-        ql_mprintf("%c", " \n"[(i + 1) == count || flags & FLAG_L]);
+        ql_mprintf("%c", " \n"[(i + 1) == count || flags & F_LONG_FORM]);
         entry += d;
     }
 }
