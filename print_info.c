@@ -109,7 +109,7 @@ void print_entries(entry_t *entry, int count, char flags)
         if (flags & F_LONG_FORM)
             print_file_infos(entry);
         ql_mprintf("%s", entry->name);
-        ql_mprintf("%c", " \n"[(i + 1) == count || flags & F_LONG_FORM]);
+        ql_mprintf(((i + 1) == count || flags & F_LONG_FORM) ? "\n" : "  ");
         entry += d;
     }
 }
