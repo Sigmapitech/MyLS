@@ -15,6 +15,7 @@
 #include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/sysmacros.h>
 
 #include "quell/ql_base.h"
 #include "quell/ql_debug.h"
@@ -82,18 +83,19 @@ char *get_creation_time(entry_t *entry)
 static
 void print_file_infos(entry_t *entry)
 {
+    struct stat *fi = &entry->stat;
     char perms[10] = { [0] = get_file_type(entry) };
     const char *owner = (entry->passwd == NULL) ? "?" : entry->passwd->pw_name;
     const char *grp = (entry->group == NULL) ? "?" : entry->group->gr_name;
     char *time = get_creation_time(entry);
 
     get_file_right(perms + 1, entry);
-    ql_printf("%s %d %s %s %d %.12s ",
-        perms, entry->stat.st_nlink,
-        owner, grp,
-        entry->stat.st_size,
-        time
-    );
+    ql_printf("%s %d %s %s ", perms, fi->st_nlink, owner, grp);
+    if (ql_stridx("bc", perms[0]) != -1)
+        ql_printf("%d, %d", major(fi->st_rdev), minor(fi->st_rdev));
+    else
+        ql_printf("%d", fi->st_size);
+    ql_printf(" %.12s ", time);
 }
 
 void print_entries(entry_t *entry, int count, char flags)
