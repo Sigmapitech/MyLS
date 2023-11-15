@@ -21,12 +21,13 @@ enum {
 };
 
 enum {
-    FLAG_A = 0x01,
-    FLAG_L = 0x02,
-    FLAG_R_UP = 0x04,
-    FLAG_D = 0x08,
-    FLAG_R = 0x10,
-    FLAG_T = 0x20,
+    FLAG_A = 1 << 1,
+    FLAG_L = 1 << 2,
+    FLAG_R_UP = 1 << 3,
+    FLAG_D = 1 << 4,
+    FLAG_R = 1 << 5,
+    FLAG_T = 1 << 6,
+    FLAG_SHOW_DIR = 1 << 7
 };
 
 __attribute__((used))

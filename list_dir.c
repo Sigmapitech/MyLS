@@ -91,6 +91,8 @@ int list_dir(dirbuff_t *db, char flags)
     sort_entries(db->entries, count);
     if (flags & FLAG_T)
         sort_entries_by_time(db->entries, count);
+    if (flags & FLAG_SHOW_DIR)
+        ql_mprintf("%s:\n", db->name);
     print_entries(db->entries, count, flags);
     closedir(dir);
     return 0;

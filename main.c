@@ -50,7 +50,7 @@ int list_dirs(dirbuff_t *db, int argc, char **argv, char flags)
             continue;
         db->name = argv[i];
         if (count > 1)
-            ql_mprintf("%s:\n", db->name);
+            flags |= FLAG_SHOW_DIR;
         err |= list_dir(db, flags);
     }
     return err;
