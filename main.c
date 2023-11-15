@@ -36,35 +36,38 @@ int count_targets(int argc, char **argv)
 }
 
 static
-int list_dirs(int argc, char **argv, char flags)
+int list_dirs(dirbuff_t *db, int argc, char **argv, char flags)
 {
     int err = 0;
-    dirbuff_t db = {
-        .size = 1024,
-        .entries = malloc(1024 * sizeof(*db.entries)),
-    };
+    int count = count_targets(argc, argv);
 
-    if (db.entries == NULL)
-        return -1;
-    if (count_targets(argc, argv) == 0) {
-        db.name = DEFAULT_LOCATION;
-        err |= list_dir(&db, flags);
+    if (count == 0) {
+        db->name = DEFAULT_LOCATION;
+        err |= list_dir(db, flags);
     }
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] == '-' && argv[i][1] != '\0')
             continue;
-        db.name = argv[i];
-        err |= list_dir(&db, flags);
+        db->name = argv[i];
+        if (count > 1)
+            ql_mprintf("%s:\n", db->name);
+        err |= list_dir(db, flags);
     }
-    free(db.entries);
     return err;
 }
 
 int main(int argc, char **argv)
 {
+    dirbuff_t db = { .size = 1024 };
     char flags = compose_flaglist(argc, argv);
+    int err = 0;
 
     QL_DEBUG("Received %d parameters", argc);
     QL_DEBUG("Flag value: %x", flags);
-    return (list_dirs(argc, argv, flags) < 0) ? EXIT_KO : EXIT_OK;
+    db.entries = malloc(db.size * sizeof(*db.entries));
+    if (db.entries == NULL)
+        return EXIT_KO;
+    err |= list_dirs(&db, argc, argv, flags);
+    free(db.entries);
+    return err ? EXIT_KO : EXIT_OK;
 }
