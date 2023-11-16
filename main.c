@@ -21,7 +21,7 @@ char compose_flaglist(int argc, char **argv)
         if (argv[i][0] != '-' || argv[i][1] == '\0')
             continue;
         for (int j = 1; argv[i][j] != '\0'; j++)
-        flags = 1 << (ql_stridx(FLAGLIST, argv[i][j]) + 1);
+        flags |= 1 << (ql_stridx(FLAGLIST, argv[i][j]) + 1);
     }
     return (char)(flags >> 1);
 }
