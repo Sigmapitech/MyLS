@@ -7,8 +7,8 @@
 
 #include <stdarg.h>
 #include <stddef.h>
-#include <unistd.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include "ql_base.h"
 #include "ql_string.h"

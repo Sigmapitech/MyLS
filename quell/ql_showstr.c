@@ -12,7 +12,7 @@ void ql_puthex(int line, int pad)
 {
     int len = 0;
 
-    for (int copy = line; copy; copy /= 16)
+    for (int copy = line; copy; copy /= BASE_16_LEN)
         len++;
     for (int n = pad - len; n; --n)
         ql_putchar('0');

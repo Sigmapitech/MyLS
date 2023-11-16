@@ -20,7 +20,7 @@ int compare_names(const void *left, const void *right)
     for (; *sleft == '.'; sleft++);
     for (; *sright == '.'; sright++);
     if (*sleft == '\0' && *sright == '\0')
-        return (sleft - l) - (sright - r);
+        return (int)((sleft - l) - (sright - r));
     for (; *sleft != '\0' && C_UP(*sleft) == C_UP(*sright);) {
         sleft++;
         sright++;
@@ -34,7 +34,7 @@ int compare_times(const void *left, const void *right)
     entry_t *lentry = (entry_t *)left;
     entry_t *rentry = (entry_t *)right;
 
-    return (
+    return (int)(
         rentry->stat.st_mtim.tv_sec
         - lentry->stat.st_mtim.tv_sec
     );

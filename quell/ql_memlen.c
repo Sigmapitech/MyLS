@@ -6,6 +6,7 @@
 */
 
 #include <stddef.h>
+
 #include "ql_base.h"
 
 static

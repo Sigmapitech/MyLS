@@ -5,14 +5,15 @@
 ** conversion_base.c
 */
 
+#include <limits.h>
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>
-#include <limits.h>
 #include <unistd.h>
 
 #include "ql_base.h"
 #include "ql_string.h"
+
 #include "converters.h"
 
 static

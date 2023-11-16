@@ -7,11 +7,11 @@
 #include <limits.h>
 #include <stdio.h>
 
+#include "../float/float.h"
 #include "converters.h"
 
 #include "ql_base.h"
 #include "ql_string.h"
-#include "../float/float.h"
 
 static
 void set_upcase(char *s, int is_up)

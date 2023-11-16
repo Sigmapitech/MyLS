@@ -5,40 +5,38 @@
 ** print_info.c
 */
 
+#include <dirent.h>
+#include <grp.h>
+#include <pwd.h>
 #include <stddef.h>
 #include <stdlib.h>
-
-#include <dirent.h>
-#include <pwd.h>
-#include <grp.h>
-
-#include <time.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/sysmacros.h>
+#include <sys/types.h>
+#include <time.h>
 
 #include "quell/ql_base.h"
 #include "quell/ql_debug.h"
-#include "quell/ql_string.h"
 #include "quell/ql_printf.h"
+#include "quell/ql_string.h"
 
 #include "my_ls.h"
 
 static
-void get_file_right(char *bits, entry_t *entry)
+void get_file_right(char bits[], entry_t *entry)
 {
-    int mode = entry->stat.st_mode;
-    const char *s = "-rwx";
+    mode_t mode = entry->stat.st_mode;
+    static const char *s = "-rwx";
 
-    bits[0] = s[ZERO_OR(mode & S_IRUSR, 1)];
-    bits[1] = s[ZERO_OR(mode & S_IWUSR, 2)];
-    bits[2] = s[ZERO_OR(mode & S_IXUSR, 3)];
-    bits[3] = s[ZERO_OR(mode & S_IRGRP, 1)];
-    bits[4] = s[ZERO_OR(mode & S_IWGRP, 2)];
-    bits[5] = s[ZERO_OR(mode & S_IXGRP, 3)];
-    bits[6] = s[ZERO_OR(mode & S_IROTH, 1)];
-    bits[7] = s[ZERO_OR(mode & S_IWOTH, 2)];
-    bits[8] = s[ZERO_OR(mode & S_IXOTH, 3)];
+    bits[0] = s[(unsigned char)ZERO_OR(mode & S_IRUSR, 1)];
+    bits[1] = s[(unsigned char)ZERO_OR(mode & S_IWUSR, 2)];
+    bits[2] = s[(unsigned char)ZERO_OR(mode & S_IXUSR, 3)];
+    bits[3] = s[(unsigned char)ZERO_OR(mode & S_IRGRP, 1)];
+    bits[4] = s[(unsigned char)ZERO_OR(mode & S_IWGRP, 2)];
+    bits[5] = s[(unsigned char)ZERO_OR(mode & S_IXGRP, 3)];
+    bits[6] = s[(unsigned char)ZERO_OR(mode & S_IROTH, 1)];
+    bits[7] = s[(unsigned char)ZERO_OR(mode & S_IWOTH, 2)];
+    bits[8] = s[(unsigned char)ZERO_OR(mode & S_IXOTH, 3)];
     if (mode & S_ISUID)
         bits[1] = (mode & S_IXUSR) ? 's' : 'S';
     if (mode & S_ISGID)

@@ -21,6 +21,8 @@
     #define IS_ALPHA(c) (IS_LOWER(C_UP(c)))
     #define IS_ALNUM(c) (IS_ALPHA(c) || IS_DIGIT(c))
 
+static const int BASE_16_LEN = 16;
+
 char **ql_strtwa(char const *str);
 
 char *ql_strcat(char *dest, char const *src);

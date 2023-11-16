@@ -6,6 +6,7 @@
 */
 
 #include <unistd.h>
+
 #include "ql_base.h"
 
 void ql_putchar(char c)

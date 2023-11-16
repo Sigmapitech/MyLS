@@ -7,13 +7,12 @@
 
 #include <dirent.h>
 #include <errno.h>
+#include <grp.h>
+#include <pwd.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include <unistd.h>
-
 #include <sys/types.h>
-#include <pwd.h>
-#include <grp.h>
+#include <unistd.h>
 
 #include "quell/ql_base.h"
 #include "quell/ql_debug.h"
@@ -41,7 +40,7 @@ static
 int read_directory(dirbuff_t *db, DIR *dir, char flags)
 {
     struct dirent *dirent = readdir(dir);
-    size_t i = 0;
+    int i = 0;
 
     for (; dirent; dirent = readdir(dir)) {
         if (dirent->d_name[0] == '.' && ~flags & F_ALL_FILES)

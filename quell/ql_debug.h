@@ -9,6 +9,7 @@
     #define QL_DEBUG_H
 
     #include <stdio.h>
+
     #include "ql_base.h"
 
     #ifdef QL_DEBUG_MODE

@@ -15,6 +15,8 @@
     #include <linux/limits.h>
     #include <sys/stat.h>
 
+    #define MIN_ALLOCATED_ENTRY (1024)
+
 enum {
     EXIT_OK = 0,
     EXIT_KO = 84
@@ -46,7 +48,7 @@ typedef struct {
 typedef struct {
     char *name;
     entry_t *entries;
-    size_t size;
+    int size;
 } dirbuff_t;
 
 int list_dir(dirbuff_t *db, char flags);

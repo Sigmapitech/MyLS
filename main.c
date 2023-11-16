@@ -6,22 +6,24 @@
 */
 
 #include <stdlib.h>
+
 #include "quell/ql_debug.h"
 #include "quell/ql_string.h"
+
 #include "my_ls.h"
 
 static
 char compose_flaglist(int argc, char **argv)
 {
-    char flags = 0;
+    int flags = 0;
 
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] != '-' || argv[i][1] == '\0')
             continue;
         for (int j = 1; argv[i][j] != '\0'; j++)
-            flags |= 1 << (ql_stridx(FLAGLIST, argv[i][j]) + 1);
+        flags = 1 << (ql_stridx(FLAGLIST, argv[i][j]) + 1);
     }
-    return flags >> 1;
+    return (char)(flags >> 1);
 }
 
 static
@@ -58,7 +60,7 @@ int list_dirs(dirbuff_t *db, int argc, char **argv, char flags)
 
 int main(int argc, char **argv)
 {
-    dirbuff_t db = { .size = 1024 };
+    dirbuff_t db = { .size = MIN_ALLOCATED_ENTRY };
     char flags = compose_flaglist(argc, argv);
     int err = 0;
 

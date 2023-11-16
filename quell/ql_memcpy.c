@@ -6,6 +6,7 @@
 */
 
 #include <stddef.h>
+
 #include "ql_base.h"
 
 void *ql_memcpy(void *dest, const void *src, size_t n)

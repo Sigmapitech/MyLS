@@ -11,8 +11,8 @@
 static
 void ql_show_memblock(char const *mem, int n)
 {
-    int leftover = 16 - n;
-    int group = 16;
+    int leftover = BASE_16_LEN - n;
+    int group = BASE_16_LEN;
 
     ql_putstr(": ");
     for (; n; n--) {
@@ -40,8 +40,8 @@ int ql_showmem(char const *str, int size)
 {
     char const *p = str;
 
-    for (; size > 0; p += 16) {
-        ql_puthex(p - str, 8);
+    for (; size > 0; p += BASE_16_LEN) {
+        ql_puthex(p - str, BASE_16_LEN << 1);
         ql_show_memblock(p, MIN(16, size));
         ql_show_ascii(p, MIN(16, size));
         ql_putchar('\n');

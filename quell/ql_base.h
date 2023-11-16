@@ -54,8 +54,8 @@ void *ql_memset(void *s, int c, size_t n);
 void *ql_realloc(void *ptr, size_t oldsize, size_t size);
 void *ql_reallocarray(void *ptr, size_t oldsize, size_t size, size_t elmsize);
 
-typedef int (*_cmpf_t)(const void *, const void *);
-void ql_sort(void *base, size_t nmemb, size_t size, _cmpf_t compar);
+typedef int (*cmpf_t)(const void *, const void *);
+void ql_sort(void *base, size_t nmemb, size_t size, cmpf_t compar);
 
 void ql_putchar(char c);
 int ql_putnchar(int fd, char c, int nb);

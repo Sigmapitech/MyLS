@@ -10,11 +10,11 @@
 
 #include "ql_base.h"
 
-void *ql_calloc(size_t mem, size_t size)
+void *ql_calloc(size_t memb, size_t size)
 {
-    void *dest = malloc(mem * size);
+    void *dest = malloc(memb * size);
 
     if (dest != NULL)
-        ql_memset(dest, '\0', (mem * size));
+        ql_memset(dest, '\0', (memb * size));
     return dest;
 }
