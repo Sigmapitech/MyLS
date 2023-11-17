@@ -89,7 +89,7 @@ int read_arg(dirbuff_t *db, char flags)
         print_error(db->name);
         return -1;
     }
-    if (S_ISDIR(fi.st_mode)) {
+    if (S_ISDIR(fi.st_mode) && ~flags & F_DIRECTORY) {
         dir = opendir(db->name);
         count = read_directory(db, dir, flags);
         closedir(dir);
