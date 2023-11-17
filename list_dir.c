@@ -35,10 +35,11 @@ static
 int read_directory(dirbuff_t *db, DIR *dir, char flags)
 {
     static char path[PATH_MAX];
-    struct dirent *dirent = readdir(dir);
     int i = 0;
 
-    for (; dirent; dirent = readdir(dir)) {
+    if (dir == NULL)
+        return -1;
+    for (struct dirent *dirent = readdir(dir); dirent; dirent = readdir(dir)) {
         if (dirent->d_name[0] == '.' && ~flags & F_ALL_FILES)
             continue;
         if (i == db->size) {
@@ -48,8 +49,7 @@ int read_directory(dirbuff_t *db, DIR *dir, char flags)
         }
         ql_strcpy(db->entries[i].name, dirent->d_name);
         if (flags & (F_LONG_FORM | F_SORT_TIME | F_RECURSIVE))
-            get_file_info(
-                path_concat(path, db->name, db->entries[i].name),
+            get_file_info(path_concat(path, db->name, db->entries[i].name),
                 &db->entries[i]);
         i++;
     }
@@ -111,7 +111,7 @@ int list_dir(dirbuff_t *db, char flags)
     if (flags & (F_SHOW_DIRS | F_RECURSIVE) && !db->is_file)
         ql_mprintf("%s:\n", db->name);
     print_entries(db->entries, count, flags);
-    if (flags & F_RECURSIVE)
+    if (flags & F_RECURSIVE && !db->is_file)
         recurse(db, count, flags);
     return 0;
 }
