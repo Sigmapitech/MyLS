@@ -16,7 +16,8 @@ char *ql_strndup(char const *src, size_t n)
 
     if (out == NULL)
         return NULL;
-    return ql_strncpy(out, src, n);
+    ql_strncpy(out, src, n + 1);
+    return out;
 }
 
 char *ql_strdup(char const *src)
