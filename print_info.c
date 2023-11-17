@@ -88,7 +88,7 @@ void print_file_infos(entry_t *entry)
     char *time = get_creation_time(entry);
 
     get_file_right(perms + 1, entry);
-    ql_printf("%s %d %s %s ", perms, fi->st_nlink, owner, grp);
+    ql_printf("%.10s %d %s %s ", perms, fi->st_nlink, owner, grp);
     if (ql_stridx("bc", perms[0]) != -1)
         ql_printf("%d, %d", major(fi->st_rdev), minor(fi->st_rdev));
     else
