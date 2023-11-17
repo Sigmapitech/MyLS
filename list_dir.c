@@ -106,6 +106,8 @@ int list_dir(dirbuff_t *db, char flags)
 {
     int count = read_arg(db, flags);
 
+    if (count == -1)
+        return -1;
     sort_entries(db->entries, count);
     if (flags & F_SORT_TIME)
         sort_entries_by_time(db->entries, count);
