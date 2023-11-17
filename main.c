@@ -69,6 +69,8 @@ int main(int argc, char **argv)
     db.entries = malloc(db.size * sizeof(*db.entries));
     if (db.entries == NULL)
         return EXIT_KO;
+    if (flags & F_DIRECTORY)
+        flags &= ~F_RECURSIVE;
     err |= list_dirs(&db, argc, argv, flags);
     free(db.entries);
     return err ? EXIT_KO : EXIT_OK;
