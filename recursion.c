@@ -12,28 +12,28 @@
 
 #include "my_ls.h"
 
-char *path_concat(char *basepath, char *suffix)
+char *path_concat(char *dest, char *basepath, char *suffix)
 {
-    static char path[PATH_MAX];
     int written = 0;
 
-    ql_strcpy(path, basepath);
+    ql_strcpy(dest, basepath);
     written = ql_strlen(basepath);
-    if (path[written - 1] != '/') {
-        path[written] = '/';
+    if (dest[written - 1] != '/') {
+        dest[written] = '/';
         written++;
     }
-    ql_strcpy(path + written, suffix);
+    ql_strcpy(dest + written, suffix);
     written += ql_strlen(suffix);
-    path[written] = '\0';
-    return path;
+    dest[written] = '\0';
+    return dest;
 }
 
 int recurse(dirbuff_t *db, int count, char flags)
 {
-    int j = 0;
+    static char path[PATH_MAX];
     char **dirs = malloc(count * sizeof(char *));
     int dirsize = ql_strlen(db->name);
+    int j = 0;
 
     for (int i = 0; i < count; i++) {
         if (S_ISDIR(db->entries[i].stat.st_mode)) {
@@ -42,7 +42,7 @@ int recurse(dirbuff_t *db, int count, char flags)
         }
     }
     for (int i = 0; i < j; i++) {
-        db->name = path_concat(db->name, dirs[i]);
+        db->name = path_concat(path, db->name, dirs[i]);
         list_dir(db, flags);
         db->name[dirsize] = '\0';
     }

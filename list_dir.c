@@ -34,6 +34,7 @@ void get_file_info(const char *path, entry_t *entry)
 static
 int read_directory(dirbuff_t *db, DIR *dir, char flags)
 {
+    static char path[PATH_MAX];
     struct dirent *dirent = readdir(dir);
     int i = 0;
 
@@ -48,7 +49,7 @@ int read_directory(dirbuff_t *db, DIR *dir, char flags)
         ql_strcpy(db->entries[i].name, dirent->d_name);
         if (flags & (F_LONG_FORM | F_SORT_TIME | F_RECURSIVE))
             get_file_info(
-                path_concat(db->name, db->entries[i].name),
+                path_concat(path, db->name, db->entries[i].name),
                 &db->entries[i]);
         i++;
     }
