@@ -52,7 +52,7 @@ int read_directory(dirbuff_t *db, DIR *dir, char flags)
                 db->entries, i, db->size, sizeof(*db->entries));
         }
         ql_strcpy(db->entries[i].name, dirent->d_name);
-        if (flags & (F_LONG_FORM | F_SORT_TIME))
+        if (flags & (F_LONG_FORM | F_SORT_TIME | F_RECURSIVE))
             get_file_info(db->name, &db->entries[i]);
         i++;
     }
@@ -91,8 +91,8 @@ int list_dir(dirbuff_t *db, char flags)
     sort_entries(db->entries, count);
     if (flags & F_SORT_TIME)
         sort_entries_by_time(db->entries, count);
-    if (flags & F_SHOW_DIRS)
-        ql_mprintf("%s:\n", db->name);
+    if (flags & (F_SHOW_DIRS | F_RECURSIVE))
+        ql_mprintf("%s:\n\n", db->name);
     print_entries(db->entries, count, flags);
     closedir(dir);
     if (flags & F_RECURSIVE)
