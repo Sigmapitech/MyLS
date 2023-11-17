@@ -61,6 +61,8 @@ int recurse(dirbuff_t *db, int count, char flags)
         list_dir(db, flags);
         db->name[dirsize] = '\0';
     }
+    for (int i = 0; i < j; i++)
+        free(dirs[i]);
     free(dirs);
     return 0;
 }
