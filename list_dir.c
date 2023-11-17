@@ -78,23 +78,40 @@ void print_error(char *dirname)
     }
 }
 
-int list_dir(dirbuff_t *db, char flags)
+static
+int read_arg(dirbuff_t *db, char flags)
 {
-    DIR *dir = opendir(db->name);
+    struct stat fi;
     int count;
+    DIR *dir;
 
-    if (dir == NULL) {
+    if (stat(db->name, &fi) < 0) {
         print_error(db->name);
         return -1;
     }
-    count = read_directory(db, dir, flags);
+    if (S_ISDIR(fi.st_mode)) {
+        dir = opendir(db->name);
+        count = read_directory(db, dir, flags);
+        closedir(dir);
+        return count;
+    }
+    ql_strcpy(db->entries[0].name, db->name);
+    db->entries[0].stat = fi;
+    db->entries[0].passwd = getpwuid(db->entries[0].stat.st_uid);
+    db->entries[0].group = getgrgid(db->entries[0].stat.st_gid);
+    return 1;
+}
+
+int list_dir(dirbuff_t *db, char flags)
+{
+    int count = read_arg(db, flags);
+
     sort_entries(db->entries, count);
     if (flags & F_SORT_TIME)
         sort_entries_by_time(db->entries, count);
     if (flags & (F_SHOW_DIRS | F_RECURSIVE))
         ql_mprintf("%s:\n\n", db->name);
     print_entries(db->entries, count, flags);
-    closedir(dir);
     if (flags & F_RECURSIVE)
         recurse(db, count, flags);
     return 0;
