@@ -49,12 +49,14 @@ typedef struct {
     char *name;
     entry_t *entries;
     int size;
+    int is_file;
 } dirbuff_t;
 
 int list_dir(dirbuff_t *db, char flags);
 int recurse(dirbuff_t *db, int count, char flags);
 
 void print_entries(entry_t *entry, int count, char flags);
+char *path_concat(char *basepath, char *suffix);
 
 void sort_entries(entry_t *entries, int count);
 void sort_entries_by_time(entry_t *entries, int count);

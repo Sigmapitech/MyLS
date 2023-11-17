@@ -12,7 +12,6 @@
 
 #include "my_ls.h"
 
-static
 char *path_concat(char *basepath, char *suffix)
 {
     static char path[PATH_MAX];

@@ -23,14 +23,8 @@
 #include "my_ls.h"
 
 static
-void get_file_info(char *dirname, entry_t *entry)
+void get_file_info(const char *path, entry_t *entry)
 {
-    static char path[PATH_MAX];
-    int dirlen = ql_strlen(dirname);
-
-    ql_strcpy(path, dirname);
-    path[dirlen] = '/';
-    ql_strcpy(&path[dirlen + 1], entry->name);
     if (stat(path, &entry->stat) < 0)
         return;
     entry->passwd = getpwuid(entry->stat.st_uid);
@@ -53,7 +47,9 @@ int read_directory(dirbuff_t *db, DIR *dir, char flags)
         }
         ql_strcpy(db->entries[i].name, dirent->d_name);
         if (flags & (F_LONG_FORM | F_SORT_TIME | F_RECURSIVE))
-            get_file_info(db->name, &db->entries[i]);
+            get_file_info(
+                path_concat(db->name, db->entries[i].name),
+                &db->entries[i]);
         i++;
     }
     return i;
@@ -82,9 +78,10 @@ static
 int read_arg(dirbuff_t *db, char flags)
 {
     struct stat fi;
-    int count;
+    int count = 1;
     DIR *dir;
 
+    db->is_file = 0;
     if (stat(db->name, &fi) < 0) {
         print_error(db->name);
         return -1;
@@ -93,13 +90,12 @@ int read_arg(dirbuff_t *db, char flags)
         dir = opendir(db->name);
         count = read_directory(db, dir, flags);
         closedir(dir);
-        return count;
+    } else {
+        ql_strcpy(db->entries[0].name, db->name);
+        get_file_info(db->name, &db->entries[0]);
+        db->is_file = 1;
     }
-    ql_strcpy(db->entries[0].name, db->name);
-    db->entries[0].stat = fi;
-    db->entries[0].passwd = getpwuid(db->entries[0].stat.st_uid);
-    db->entries[0].group = getgrgid(db->entries[0].stat.st_gid);
-    return 1;
+    return count;
 }
 
 int list_dir(dirbuff_t *db, char flags)
