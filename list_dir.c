@@ -112,7 +112,7 @@ int list_dir(dirbuff_t *db, char flags)
     if (flags & F_SORT_TIME)
         sort_entries_by_time(db->entries, count);
     if (flags & (F_SHOW_DIRS | F_RECURSIVE))
-        ql_mprintf("%s:\n\n", db->name);
+        ql_mprintf("%s:\n", db->name);
     print_entries(db->entries, count, flags);
     if (flags & F_RECURSIVE)
         recurse(db, count, flags);
