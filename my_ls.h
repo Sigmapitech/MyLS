@@ -52,6 +52,8 @@ typedef struct {
 } dirbuff_t;
 
 int list_dir(dirbuff_t *db, char flags);
+int recurse(dirbuff_t *db, int count, char flags);
+
 void print_entries(entry_t *entry, int count, char flags);
 
 void sort_entries(entry_t *entries, int count);

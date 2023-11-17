@@ -11,6 +11,7 @@
 #include <pwd.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -94,5 +95,7 @@ int list_dir(dirbuff_t *db, char flags)
         ql_mprintf("%s:\n", db->name);
     print_entries(db->entries, count, flags);
     closedir(dir);
+    if (flags & F_RECURSIVE)
+        recurse(db, count, flags);
     return 0;
 }

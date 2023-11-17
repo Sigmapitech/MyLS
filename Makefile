@@ -44,6 +44,7 @@ SRC += main.c
 SRC += list_dir.c
 SRC += print_info.c
 SRC += sort_entries.c
+SRC += recursion.c
 
 vpath %.c $(VPATH)
 
